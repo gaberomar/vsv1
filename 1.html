@@ -1,37 +1,65 @@
 
-<style>.player-wrap-max[data-v-604115e8] { max-height: calc(100vh - 1px);}   </style>
-	<script>
-function getParam ( sname )
-{
-  var params = location.search.substr(location.search.indexOf("?")+1);
-  var sval =  params.replace("sv=", "");
-  
-  return sval;
-}
-var sv = getParam("sv");
-
-</script>
+<div id="playerDiv" style="width: 100%; height: 100%"></div>
+<script src="https://demo.nanocosmos.de/nanoplayer/api/release/nanoplayer.4.min.js?20200819"></script>
 <script data-n-head="ssr" src="https://static.trovo.live/cat/e2b7d98e7625d4c083a8.js?max_age=31536000" data-body="true" defer inline="1" nomodule="true" crossorigin="anonymous"></script>
 <script data-n-head="ssr" src="https://static.trovo.live/cat/37cbc333bfeefdf47524.js?max_age=31536000" data-body="true" defer inline="1" type="module" crossorigin="anonymous"></script>
 
-<div id="video-container" class="player-video vcp-player" data-v-604115e8></div>
+<script> 
+function getParam ( sname )
+{
+ var params = location.search.substr(location.search.indexOf("?")+1);
+ var sval =  params.replace("sv=", "");
+ return sval;
+}
+var sv = getParam("sv");
+</script>
+<script>
+var player;
+var config = {
+	"source": {
+		"entries": [
+			{
+				"index": 0,
+				"h5live": {
+					"server": {
+						"websocket": "wss://bintu-h5live.nanocosmos.de:443/h5live/stream/stream.mp4",
+						"hls": sv,
+						"progressive": "https://bintu-h5live.nanocosmos.de:443/h5live/http/stream.mp4"
+					},
+					"rtmp": {
+						"url": "rtmp://bintu-play.nanocosmos.de:1935/play",
+						"streamname": "C38zN-wrDIF"
+					}
+				}
+			}
+		],
+		"options": {
+			"adaption": {
+				"rule": "deviationOfMean2"
+			},
+			"switch": {}
+		},
+		"startIndex": 0
+	},
+	"playback": {
 
-<script data-n-head="ssr" data-body="true" nonce="csp-script-inline">var _playerInfo = {"isCacheOption":true,"playerType":"live","showTrovoLogo":false,
-"modId":"video-container",
-"webfuScrnEnabled":false,
-"fuScrnEnabled":true,
-"enableContextMenu":true,
-"fullscreenEl":"#live-fullscreen",
-"hls":false,"p2p":false,
-"flash":false,"rtcLive":false,
-"isLive":true,
-"videoType":"live",
-"urlArray":[{
-"playUrl":sv,
-}],
-
-"autoplay":true,
-"pictureInPictureEnabled":true}</script>
+		"autoplay": true,
+		"automute": false,
+		"muted": false,
+		"flashplayer": "https://demo.nanocosmos.de/nanoplayer/nano.player.swf"
+	}
+};
+document.addEventListener('DOMContentLoaded', function () {
+    player = new NanoPlayer("playerDiv");
+    player.setup(config).then(function (config) {
+        console.log("setup success");
+        console.log("config: " + JSON.stringify(config, undefined, 4));
+    }, function (error) {
+        alert(error.message);
+    });
+});
+</script>
+</script>
 <span style='position:absolute; bottom: 35px!important; left: 10px!important; max-bottom: 10px!important; max-width: 170%!important; width: 22%!important; font-size: 13px; font-weight: bold;color: #ff0;'>
 <img style= 'left: 10px!important; max-height: 50px!important; max-width: 100%!important; width: 90%!important;' src='http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQHkvIywpU4znsCgYEvIsc-U8ijY1wCK4BGAYYCw/s1600/2.png'></span>
 
